@@ -11,7 +11,7 @@ export class PersonService {
   async findAll(sortBy?: string): Promise<Person[]> {
     try {
       const persons = await this.personRepository.find({
-        relations: ['team', 'steps'],
+        relations: [],
       });
 
       return persons;
@@ -19,5 +19,13 @@ export class PersonService {
       console.error('Error fetching players:', error);
       throw error; // Or handle it appropriately
     }
+  }
+
+  async findById(id: number): Promise<Person | null> {
+    const person = await this.personRepository.findOne({
+      where: { id: id },
+      relations: ['team', 'steps'],
+    });
+    return person;
   }
 }

@@ -11,7 +11,7 @@ export class TeamService {
   async findAll(sortBy?: string): Promise<Team[]> {
     try {
       const teams = await this.teamRepository.find({
-        relations: ['persons'],
+        relations: [],
       });
 
       return teams;
@@ -19,5 +19,13 @@ export class TeamService {
       console.error('Error fetching players:', error);
       throw error; // Or handle it appropriately
     }
+  }
+
+  async findById(id: number): Promise<Team | null> {
+    const team = await this.teamRepository.findOne({
+      where: { id: id },
+      relations: ['persons'],
+    });
+    return team;
   }
 }
